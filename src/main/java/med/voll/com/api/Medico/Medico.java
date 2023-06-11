@@ -26,21 +26,40 @@ public class Medico {
 	private Long id;
 	private String nome;
 	private String email;
+	private String telefone;
 	private String crm;
 	@Enumerated(EnumType.STRING)
 	private Especialidades especialidade;
 	@Embedded
 	private Endereco endereco;
+	private Boolean ativo;
 	
 	
 	public Medico(DadosCadastro dados) {
+		this.ativo = true;
 		this.id = null;
 		this.nome = dados.nome();
 		this.crm = dados.crm();
 		this.email = dados.email();
+		this.telefone = dados.telefone();
 		this.especialidade = dados.especialidade();
 		this.endereco = new Endereco(dados.endereco());
 		
 	}
 
+    public void atualizaInformacoes(DadosAtualizacaoMedico dados) {
+		if (dados.nome() != null){
+			this.nome = dados.nome();
+		}
+		if (dados.endereco() != null){
+			this.endereco.atualiza(dados.endereco());
+		}
+		if (dados.telefone() != null){
+			this.telefone = dados.telefone();
+		}
+    }
+
+	public void excluir(Long id) {
+		this.ativo = false;
+	}
 }
